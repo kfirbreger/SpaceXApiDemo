@@ -8,8 +8,21 @@
 import SwiftUI
 
 struct RocketsView: View {
+    
+    @ObservedObject private var viewModel: RocketViewModel = RocketViewModel()
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        GeometryReader { geom in
+            NavigationView {
+                ZStack {
+                    List(self.viewModel.presenters) { item in
+                        RocketCell(presenter: item, geometryProxy: geom)
+                    }.onAppear(perform: {
+                        self.viewModel.onAppear()
+                    }).listStyle(PlainListStyle())
+                }
+            }.navigationBarTitle("Rockets", displayMode: .inline)
+        }
     }
 }
 

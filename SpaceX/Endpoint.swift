@@ -10,4 +10,5 @@ import Foundation
 
 enum Endpoint: String {
     case launches = "launches"
+    case rockets = "rockets"
 }
