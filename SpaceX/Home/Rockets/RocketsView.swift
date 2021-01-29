@@ -16,10 +16,16 @@ struct RocketsView: View {
             NavigationView {
                 ZStack {
                     List(self.viewModel.presenters) { item in
-                        RocketCell(presenter: item, geometryProxy: geom)
+                        RocketCell(presenter: item, geometryProxy: geom).onTapGesture(perform: { self.viewModel.itemSelected(at: item)})
                     }.onAppear(perform: {
                         self.viewModel.onAppear()
                     }).listStyle(PlainListStyle())
+                    NavigationLink(
+                        destination: RocketDetailView(viewModel: self.viewModel.selecetedViewModel),
+                        isActive: self.$viewModel.navigateToDetail,
+                        label: {
+                            EmptyView()
+                        })
                 }
             }.navigationBarTitle("Rockets", displayMode: .inline)
         }
