@@ -17,6 +17,19 @@ struct LaunchesPresenter: Identifiable {
     init(with model: LaunchesModel) {
         self.image = model.links?.patch?.small ?? ""
         self.name = model.name ?? ""
-        self.date = model.date ?? ""
+        guard let modelDate = model.date else {
+            self.date = ""
+            return
+        }
+        let df = DateFormatter()
+        df.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        df.locale = Locale(identifier: "en_US_POSIX")
+        guard let launchDate = df.date(from: modelDate) else {
+            self.date = ""
+            return
+        }
+        df.dateFormat = "yyyy-MM-dd"
+        self.date = df.string(from: launchDate)
+        
     }
 }
